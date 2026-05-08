@@ -1,7 +1,7 @@
 #!/bin/bash
 # Theme Switcher — apply color/style themes to config files via symlinks
 #
-# Usage:  ./main.sh <command> [args]
+# Usage:  themeux <command> [args]
 #
 # Directory layout:
 #   userHome/   — mirror of $HOME; files use {{VARIABLE}} placeholder syntax
@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="__THEMEUX_DIR__"
 THEMES_DIR="$SCRIPT_DIR/themes"
 USER_HOME_DIR="$SCRIPT_DIR/userHome"
 ACTIVE_DIR="$SCRIPT_DIR/active"
