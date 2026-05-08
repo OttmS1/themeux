@@ -1,0 +1,14 @@
+# Theme: example
+# Demonstrates the variable format used by the theme switcher.
+# Each KEY=value pair here replaces every {{KEY}} in your userHome templates.
+
+BG_COLOR=#1e1e2e
+FG_COLOR=#cdd6f4
+ACCENT_COLOR=#cba6f7
+BORDER_COLOR=#45475a
+
+FONT_FAMILY=JetBrains Mono
+FONT_SIZE=14
+
+OPACITY=1.0
+BORDER_WIDTH=2

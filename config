@@ -1,0 +1,5 @@
+# Theme Switcher Configuration
+# This file is sourced by main.sh, so standard bash syntax applies.
+
+# Where stow places symlinks. Normally your home directory.
+STOW_TARGET="${STOW_TARGET:-$HOME}"
