@@ -1,0 +1,15 @@
+# themeux.ignore — files in userHome/ to exclude from processing and symlinking
+#
+# Patterns are matched against paths relative to userHome/.
+# Lines starting with # and blank lines are ignored.
+# Shell glob wildcards are supported: *  ?  [...]
+#
+# A pattern WITHOUT a slash is matched against the filename only (any depth).
+# A pattern WITH    a slash is matched against the full relative path.
+#
+# Examples:
+#   .DS_Store          skip any file named .DS_Store (at any depth)
+#   *.swp              skip all vim swap files
+#   .config/foo/bar    skip exactly that relative path
+
+.vim/plugged/*
