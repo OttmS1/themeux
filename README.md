@@ -30,7 +30,7 @@ Switching themes cleans up the previous symlinks before laying down new ones.
 
 ```sh
 git clone <repo-url>
-cd themeSwitcher
+cd themeux 
 make install        # installs to ~/.local/bin/themeux
 ```
 
