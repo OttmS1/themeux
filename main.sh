@@ -17,6 +17,7 @@ USER_HOME_DIR="$SCRIPT_DIR/userHome"
 ACTIVE_DIR="$SCRIPT_DIR/active"
 CONFIG_FILE="$SCRIPT_DIR/config"
 ACTIVE_THEME_FILE="$SCRIPT_DIR/.active_theme"
+IGNORE_FILE="$SCRIPT_DIR/themeux.ignore"
 
 # Load user config first; environment variables set before invoking the script take precedence
 [[ -f "$CONFIG_FILE" ]] && source "$CONFIG_FILE"
@@ -29,6 +30,27 @@ STOW_TARGET="${STOW_TARGET:-$HOME}"
 # ---------------------------------------------------------------------------
 
 die() { echo "Error: $*" >&2; exit 1; }
+
+# Return 0 if the relative path should be excluded per themeux.ignore.
+# Patterns without a slash are matched against the basename only.
+# Patterns with a slash are matched against the full relative path.
+is_ignored() {
+    local rel_path="$1"
+    [[ -f "$IGNORE_FILE" ]] || return 1
+
+    local filename
+    filename="$(basename "$rel_path")"
+
+    while IFS= read -r pattern; do
+        [[ -z "$pattern" || "$pattern" == \#* ]] && continue
+        if [[ "$pattern" == */* ]]; then
+            [[ "$rel_path" == $pattern ]] && return 0
+        else
+            [[ "$filename" == $pattern ]] && return 0
+        fi
+    done < "$IGNORE_FILE"
+    return 1
+}
 
 # For each file in active/, create a symlink at the corresponding path under
 # $STOW_TARGET. mkdir -p follows existing directory symlinks (e.g. ~/.config ->
@@ -78,6 +100,7 @@ load_theme() {
 # Substitute every {{VARIABLE}} in src with the matching theme value, write to dest.
 # Uses bash parameter expansion so special characters in values are treated literally.
 process_file() {
+    echo "Processing $1"
     local src="$1"
     local dest="$2"
     local -n _theme="$3"
@@ -117,8 +140,15 @@ cmd_apply() {
 
     # Process every template file from userHome into active/
     local file_count=0
+    local ignored_count=0
     while IFS= read -r -d '' src_file; do
         local relative_path="${src_file#"$USER_HOME_DIR"/}"
+
+        if is_ignored "$relative_path"; then
+            ignored_count=$(( ignored_count + 1 ))
+            continue
+        fi
+
         local dest_file="$ACTIVE_DIR/$relative_path"
 
         mkdir -p "$(dirname "$dest_file")"
@@ -131,7 +161,7 @@ cmd_apply() {
         file_count=$(( file_count + 1 ))
     done < <(find "$USER_HOME_DIR" -type f -print0)
 
-    echo "Processed $file_count file(s) into active/"
+    echo "Processed $file_count file(s) into active/ (ignored: $ignored_count)"
 
     # Create symlinks from STOW_TARGET pointing into active/
     link_active
@@ -228,6 +258,12 @@ Theme file format (themes/<name>.theme):
 
 Configuration (./config):
   STOW_TARGET   Directory where symlinks are placed (default: \$HOME)
+
+Ignore file (./themeux.ignore):
+  List patterns (one per line) for files in userHome/ to skip.
+  Patterns without a slash match the filename at any depth.
+  Patterns with a slash match the full path relative to userHome/.
+  Lines starting with # are comments.
 EOF
 }
 
