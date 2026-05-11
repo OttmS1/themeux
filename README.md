@@ -53,7 +53,7 @@ themeux unstow            # remove symlinks placed by the last apply
 
 ## Adding your own config files
 
-Mirror the file's path under `userHome/` and replace any color or style values with `{{VARIABLE_NAME}}` placeholders (uppercase letters, digits, and underscores only):
+Mirror the file's path under `userHome/` and replace any color or style values with `{{VARIABLE_NAME}}` placeholders:
 
 ```toml
 # userHome/.config/alacritty/alacritty.toml
