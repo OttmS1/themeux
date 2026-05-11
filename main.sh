@@ -122,7 +122,11 @@ cmd_apply() {
         local dest_file="$ACTIVE_DIR/$relative_path"
 
         mkdir -p "$(dirname "$dest_file")"
-        process_file "$src_file" "$dest_file" theme_vars
+        if grep -qI '' "$src_file" 2>/dev/null; then
+            process_file "$src_file" "$dest_file" theme_vars
+        else
+            cp "$src_file" "$dest_file"
+        fi
 
         file_count=$(( file_count + 1 ))
     done < <(find "$USER_HOME_DIR" -type f -print0)

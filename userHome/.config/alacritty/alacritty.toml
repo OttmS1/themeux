@@ -1,0 +1,51 @@
+[font]
+normal = { family = "Iosevka Nerd Font Mono", style = "Regular" }
+size = 10
+
+[window]
+opacity = {{ALACRITTY_OPACITY}}
+decorations = "Full"
+decorations_theme_variant = "Dark"
+
+[window.padding]
+y=4
+x=4
+
+# Default colors
+[colors.primary]
+background = '{{ALACRITTY_BG}}'
+foreground = '{{ALACRITTY_FG}}'
+
+# Normal colors
+[colors.normal]
+black   = '#110f18'
+red     = '{{ALACRITTY_NORMAL_RED}}'
+green   = '{{ALACRITTY_NORMAL_GREEN}}'
+yellow  = '{{ALACRITTY_NORMAL_YELLOW}}'
+blue    = '#a277ff'
+magenta = '#a277ff'
+cyan    = '#61ffca'
+white   = '#edecee'
+
+# Bright colors
+[colors.bright]
+black   = '#4d4d4d'
+red     = '{{ALACRITTY_BRIGHT_RED}}'
+green   = '{{ALACRITTY_NORMAL_GREEN}}'
+yellow  = '#ffca85'
+blue    = '#a277ff'
+magenta = '#a277ff'
+cyan    = '#61ffca'
+white   = '#edecee'
+
+[colors.selection]
+text       = 'CellForeground'
+background = '#29263c'
+
+[colors.cursor]
+cursor = '{{ALACRITTY_CURSOR}}'
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\r"
